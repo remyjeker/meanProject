@@ -9,7 +9,6 @@
       </a>
       <mat-menu #menu="matMenu">
         <button mat-menu-item *ngIf="user && user.isAdmin" [routerLink]="['/admin']">admin</button>
-        <button mat-menu-item *ngIf="user" [routerLink]="['/profile']">profile</button>
         <button mat-menu-item (click)="logout()">logout</button>
       </mat-menu>
     </div>
