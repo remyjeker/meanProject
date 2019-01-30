@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { TokenStorage } from './token.storage';
-import { TooltipComponent } from '@angular/material';
 import { Observer } from 'rxjs';
 
 @Injectable()
@@ -22,12 +21,9 @@ export class AuthService {
       this.http.post('/api/auth/login', {
         email,
         password
-      }).subscribe((data: any) => {
-          observer.next({user: data.user});
-          this.setUser(data.user);
-          this.token.saveToken(data.token);
-          observer.complete();
-      });
+      }).subscribe(
+        (data: any) => this.userLoginSuccess(observer, data),
+      );
     });
   }
 
@@ -38,22 +34,22 @@ export class AuthService {
         email,
         password,
         repeatPassword
-      }).subscribe((data: any) => {
-        this.registerUserSuccess(observer, data);
-      }, (error: any) => {
-        const genericMessage = error.message;
-        const { error: { message } } = error;
-        const errorDetails = {
-          message: genericMessage || this.NON_ASSESSABLE_VALUE,
-          details: message || this. NON_ASSESSABLE_VALUE,
-          timestamp: + new Date(),
-        };
-        this.setError(errorDetails);
-      });
+      }).subscribe(
+        (data: any) => this.userLoginSuccess(observer, data),
+        (error: any) => {
+          const genericMessage = error.message;
+          const { error: { message } } = error;
+          const errorDetails = {
+            message: genericMessage || this.NON_ASSESSABLE_VALUE,
+            details: message || this. NON_ASSESSABLE_VALUE,
+            timestamp: + new Date(),
+          };
+          this.setError(errorDetails);
+        });
     });
   }
 
-  registerUserSuccess(observer: Observer <any>, data: any) {
+  userLoginSuccess(observer: Observer <any>, data: any) {
     observer.next({user: data.user});
     this.setUser(data.user);
     this.token.saveToken(data.token);
