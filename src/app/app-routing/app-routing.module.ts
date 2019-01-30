@@ -4,24 +4,27 @@ import { AuthGuard } from '../auth/auth-guard.service';
 import { HomeComponent } from '../home/home.component';
 import { ErrorPageComponent } from '../errorPage/errorPage.component';
 
+import * as PATHS from './constants';
+
+const pathMatchFullMode = 'full';
 const errorPageRoute = {
   path: '**',
-  pathMatch: 'full',
+  pathMatch: pathMatchFullMode,
   component: ErrorPageComponent
 };
 
 const routes: Routes = [{
-  path: '',
-  pathMatch: 'full',
-  redirectTo: 'home'
+  path: PATHS.DEFAULT_ROUTE,
+  pathMatch: pathMatchFullMode,
+  redirectTo: PATHS.HOME_ROUTE
 }, {
-  path: 'home',
+  path: PATHS.HOME_ROUTE,
   component: HomeComponent
 }, {
-  path: 'auth',
+  path: PATHS.AUTH_ROUTE,
   loadChildren: 'app/auth/auth.module#AuthModule'
 }, {
-  path: 'admin',
+  path: PATHS.ADMIN_ROUTE,
   loadChildren: 'app/admin/admin.module#AdminModule'
 },
   errorPageRoute
