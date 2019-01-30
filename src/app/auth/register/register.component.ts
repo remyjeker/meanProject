@@ -19,21 +19,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   ngDoCheck() {
-    const registrationError = (<any>window).error || null;
-
-    if (registrationError != null) {
-      const now = + new Date();
-      const registrationErrorDate = registrationError.timestamp;
-      const diff = now - registrationErrorDate;
-      const shouldEraseError = (diff >= 2000);
-
-      if (shouldEraseError) {
-        (<any>window).error = null;
-        this.error = null;
-      } else {
-        this.error = registrationError;
-      }
-    }
+    this.error = this.authService.getCurrentError('registration');
   }
 
   passwordsMatchValidator(control: FormControl): ValidationErrors {

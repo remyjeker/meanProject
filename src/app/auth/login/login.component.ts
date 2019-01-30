@@ -15,27 +15,14 @@ export class LoginComponent implements OnInit {
 
   email: string;
   password: string;
+
   error: Error = null;
 
   ngOnInit() {
   }
 
   ngDoCheck() {
-    const loginError = (<any>window).error || null;
-
-    if (loginError != null) {
-      const now = + new Date();
-      const loginErrorDate = loginError.timestamp;
-      const diff = now - loginErrorDate;
-      const shouldEraseError = (diff >= 2000);
-
-      if (shouldEraseError) {
-        (<any>window).error = null;
-        this.error = null;
-      } else {
-        this.error = loginError;
-      }
-    }
+    this.error = this.authService.getCurrentError('login');
   }
 
   login(): void {

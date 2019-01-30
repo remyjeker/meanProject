@@ -62,6 +62,22 @@ export class AuthService {
     this.setError(errorDetails);
   }
 
+  getCurrentError(componentName: string): any {
+    const authError = (<any>window).error || null;
+
+    if (authError != null) {
+      const now = + new Date();
+      const authErrorDate = authError.timestamp;
+      const diff = now - authErrorDate;
+      const shouldEraseError = (diff >= 2000);
+
+      if (!shouldEraseError) return authError;
+
+      (<any>window).error = null;
+      return null;
+    }
+  }
+
   setUser(user: any): void {
     if (user) {
       user.isAdmin = (user.roles.indexOf('admin') > -1);
