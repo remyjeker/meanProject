@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 
-
 import { AuthService } from '../auth.service';
+import { Error } from '../../app.component';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +14,27 @@ export class RegisterComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit() { }
+  error: Error = null;
+
+  ngOnInit() {}
+
+  ngDoCheck() {
+    const registrationError = (<any>window).error || null;
+
+    if (registrationError != null) {
+      const now = + new Date();
+      const registrationErrorDate = registrationError.timestamp;
+      const diff = now - registrationErrorDate;
+      const shouldEraseError = (diff >= 2000);
+
+      if (shouldEraseError) {
+        (<any>window).error = null;
+        this.error = null;
+      } else {
+        this.error = registrationError;
+      }
+    }
+  }
 
   passwordsMatchValidator(control: FormControl): ValidationErrors {
     const password = control.root.get('password');

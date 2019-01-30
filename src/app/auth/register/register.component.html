@@ -40,6 +40,12 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button (click)="register()" color="primary">Register</button>
-    <span>Allrady have an account ? <a [routerLink]="['/auth/login']">login</a> here</span>
+    <p>
+      <span>Already have an account ? <a [routerLink]="['/auth/login']">login</a> here</span>
+    </p>
   </mat-card-actions>
 </mat-card>
+<div class="errorMessage" *ngIf="error">
+  <p>{{ error.message }}</p>
+  <p>{{ error.details }}</p>
+</div>
