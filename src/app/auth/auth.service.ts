@@ -23,6 +23,7 @@ export class AuthService {
         password
       }).subscribe(
         (data: any) => this.userLoginSuccess(observer, data),
+        (error: any) => this.catchError(error),
       );
     });
   }
@@ -36,27 +37,32 @@ export class AuthService {
         repeatPassword
       }).subscribe(
         (data: any) => this.userLoginSuccess(observer, data),
-        (error: any) => {
-          const genericMessage = error.message;
-          const { error: { message } } = error;
-          const errorDetails = {
-            message: genericMessage || this.NON_ASSESSABLE_VALUE,
-            details: message || this. NON_ASSESSABLE_VALUE,
-            timestamp: + new Date(),
-          };
-          this.setError(errorDetails);
-        });
+        (error: any) => this.catchError(error),
+      );
     });
   }
 
-  userLoginSuccess(observer: Observer <any>, data: any) {
+  userLoginSuccess(observer: Observer <any>, data: any): void {
     observer.next({user: data.user});
     this.setUser(data.user);
     this.token.saveToken(data.token);
     observer.complete();
   }
 
-  setUser(user): void {
+  catchError(error: any): void {
+    const genericMessage = error.message;
+    const { error: { message } } = error;
+
+    const errorDetails = {
+      message: genericMessage || this.NON_ASSESSABLE_VALUE,
+      details: message || this. NON_ASSESSABLE_VALUE,
+      timestamp: + new Date(),
+    };
+
+    this.setError(errorDetails);
+  }
+
+  setUser(user: any): void {
     if (user) {
       user.isAdmin = (user.roles.indexOf('admin') > -1);
     }
@@ -79,7 +85,7 @@ export class AuthService {
       const tokenVal = this.token.getToken();
 
       if (!tokenVal) {
-        return  observer.complete();
+        return observer.complete();
       }
 
       this.http.get('/api/auth/me').subscribe((data: any) => {

@@ -38,6 +38,16 @@
       </table>
     </form>
   </mat-card-content>
+  <div class="ErrorMessage_wrapper" *ngIf="error">
+    <div class="ErrorMessage_header">
+      <img class="ErrorMessage_header_icon" src="/assets/icons/close.svg" alt="404_icon" />
+      <span class="ErrorMessage_header_title">Something went wrong !</span>
+    </div>
+    <div class="ErrorMessage_content">
+        <p class="ErrorMessage_content_message">{{ error.message }}</p>
+        <p>{{ error.details }}</p>
+    </div>
+  </div>
   <mat-card-actions>
     <button mat-raised-button (click)="register()" color="primary">Register</button>
     <p>
@@ -45,7 +55,3 @@
     </p>
   </mat-card-actions>
 </mat-card>
-<div class="errorMessage" *ngIf="error">
-  <p>{{ error.message }}</p>
-  <p>{{ error.details }}</p>
-</div>
