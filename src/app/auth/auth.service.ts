@@ -14,7 +14,8 @@ export class AuthService {
   public $userSource = new Subject<any>();
   public $errorSource = new Subject<any>();
 
-  private NON_ASSESSABLE_VALUE = 'N-A';
+  private NON_ASSESSABLE_VALUE: String = 'N-A';
+  private ERASE_ERRORS_DELAY: Number = 5000;
 
   login(email: string, password: string): Observable <any> {
     return Observable.create(observer => {
@@ -56,7 +57,7 @@ export class AuthService {
     const errorDetails = {
       message: genericMessage || this.NON_ASSESSABLE_VALUE,
       details: message || this. NON_ASSESSABLE_VALUE,
-      timestamp: + new Date(),
+      date: + new Date(),
     };
 
     this.setError(errorDetails);
@@ -64,18 +65,17 @@ export class AuthService {
 
   getCurrentError(componentName: string): any {
     const authError = (<any>window).error || null;
+    if (authError == null) return;
 
-    if (authError != null) {
-      const now = + new Date();
-      const authErrorDate = authError.timestamp;
-      const diff = now - authErrorDate;
-      const shouldEraseError = (diff >= 2000);
+    const now = + new Date();
+    const authErrorDate = authError.date;
+    const diff = now - authErrorDate;
+    const shouldEraseError = (diff >= this.ERASE_ERRORS_DELAY);
 
-      if (!shouldEraseError) return authError;
+    if (!shouldEraseError) return authError;
 
-      (<any>window).error = null;
-      return null;
-    }
+    (<any>window).error = null;
+    return null;
   }
 
   setUser(user: any): void {

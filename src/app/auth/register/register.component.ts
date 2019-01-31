@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
 
   error: Error = null;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngDoCheck() {
     this.error = this.authService.getCurrentError('registration');

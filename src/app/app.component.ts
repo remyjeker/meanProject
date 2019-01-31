@@ -9,6 +9,7 @@ import { AuthService } from './auth/auth.service';
 export interface Error {
   message: string;
   details: string;
+  date: Date;
 }
 
 @Component({
@@ -45,7 +46,7 @@ export class AppComponent implements OnInit {
       this.user = user;
     });
 
-    // update this.error after api/auth/register
+    // update this.error after api/auth/login OR api/auth/register
     this.errorSubscription = this.authService.$errorSource.subscribe((error) => {
       this.error = error;
     });

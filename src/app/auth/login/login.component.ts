@@ -18,8 +18,7 @@ export class LoginComponent implements OnInit {
 
   error: Error = null;
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngDoCheck() {
     this.error = this.authService.getCurrentError('login');
