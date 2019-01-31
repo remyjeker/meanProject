@@ -4,13 +4,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { Error } from './types';
 import { AuthService } from './auth/auth.service';
-
-export interface ErrorType {
-  message: string;
-  details: string;
-  date: Date;
-}
 
 @Component({
   selector: 'app-root',

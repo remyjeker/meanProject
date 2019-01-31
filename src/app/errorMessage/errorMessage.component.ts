@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from './../auth/auth.service';
-import { ErrorType } from './../app.component';
+import { Error } from './../types';
 
 @Component({
   selector: 'app-error-message',
@@ -12,11 +12,11 @@ export class ErrorMessageComponent implements OnInit {
 
   constructor(public authService: AuthService) { }
 
-  error: ErrorType = null;
+  error: Error = null;
 
   ngOnInit() { }
 
   ngDoCheck() {
-    this.error = this.authService.getCurrentError('login');
+    this.error = this.authService.getCurrentError();
   }
 }

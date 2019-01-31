@@ -5,8 +5,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { TokenStorage } from './token.storage';
 import { Observer } from 'rxjs';
-
-import { ErrorType } from './../app.component';
+import * as moment from 'moment';
 
 @Injectable()
 export class AuthService {
@@ -64,12 +63,13 @@ export class AuthService {
       message: genericMessage || this.NON_ASSESSABLE_VALUE,
       details: message || this. NON_ASSESSABLE_VALUE,
       date: + new Date(),
+      displayedDate: moment().format('dddd, Do MMMM YYYY (h:mm:ss)'),
     };
 
     this.setError(errorDetails);
   }
 
-  getCurrentError(componentName: string): any {
+  getCurrentError(): any {
     const authError = (<any>window).error || null;
     if (authError == null) return;
 

@@ -1,11 +1,22 @@
-<div class="ErrorMessage_wrapper">
+<div class="ErrorMessage_wrapper" *ngIf="error">
   <div class="ErrorMessage_header">
     <img class="ErrorMessage_header_icon" src="/assets/icons/close.svg" alt="404_icon" />
-    <span class="ErrorMessage_header_title">Something went wrong !</span>
+    <span class="ErrorMessage_header_title">
+      Something went wrong !
+    </span>
   </div>
   <div class="ErrorMessage_content">
-      <p class="ErrorMessage_content_message">{{ error.message }}</p>
-      <p>{{ error.details }}</p>
-      <p>{{ error.date }}</p>
+      <p>
+        <b>Error : </b>
+        {{ error.message }}
+      </p>
+      <p>
+        <b>Details : </b>
+        {{ error.details }}
+      </p>
+      <p>
+        <b>At : </b>
+        {{ error.displayedDate }}
+      </p>
   </div>
 </div>
