@@ -6,6 +6,8 @@ import { Subject } from 'rxjs/Subject';
 import { TokenStorage } from './token.storage';
 import { Observer } from 'rxjs';
 
+import { ErrorType } from './../app.component';
+
 @Injectable()
 export class AuthService {
 
@@ -50,9 +52,13 @@ export class AuthService {
     observer.complete();
   }
 
-  catchError(error: any): void {
-    const genericMessage = error.message;
-    const { error: { message } } = error;
+  catchError(catchedError: any): void {
+    const genericMessage = catchedError.message;
+    const isSimpleError = (typeof catchedError.error === 'string');
+
+    let message: string;
+    if (isSimpleError) message = catchedError.error;
+    else message = catchedError.error.message;
 
     const errorDetails = {
       message: genericMessage || this.NON_ASSESSABLE_VALUE,

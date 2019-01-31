@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { AuthService } from './auth/auth.service';
 
-export interface Error {
+export interface ErrorType {
   message: string;
   details: string;
   date: Date;

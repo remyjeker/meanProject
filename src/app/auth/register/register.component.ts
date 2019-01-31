@@ -3,24 +3,20 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 
 import { AuthService } from '../auth.service';
-import { Error } from '../../app.component';
+import { ErrorMessageComponent } from './../../errorMessage/errorMessage.component';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['../auth.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends ErrorMessageComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  error: Error = null;
+  constructor(public authService: AuthService, private router: Router) {
+    super(authService);
+  }
 
   ngOnInit() { }
-
-  ngDoCheck() {
-    this.error = this.authService.getCurrentError('registration');
-  }
 
   passwordsMatchValidator(control: FormControl): ValidationErrors {
     const password = control.root.get('password');
