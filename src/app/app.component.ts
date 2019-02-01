@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { Error } from './types';
 import { AuthService } from './auth/auth.service';
-// import * as schema from './schema/equipment.json';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +16,9 @@ export class AppComponent implements OnInit {
 
   private userSubscription: Subscription;
   public user: any;
+
+  private errorSubscription: Subscription;
+  public error: Error;
 
   constructor(
     private authService: AuthService,
@@ -37,6 +40,11 @@ export class AppComponent implements OnInit {
     this.userSubscription = this.authService.$userSource.subscribe((user) => {
       this.user = user;
     });
+
+    // update this.error after api/auth/login OR api/auth/register
+    this.errorSubscription = this.authService.$errorSource.subscribe((error) => {
+      this.error = error;
+    });
   }
 
   logout(): void {
@@ -48,11 +56,9 @@ export class AppComponent implements OnInit {
     this.router.navigate([link]);
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
+    if (this.userSubscription) this.userSubscription.unsubscribe();
+    if (this.errorSubscription) this.errorSubscription.unsubscribe();
   }
 
   registerSvgIcons() {

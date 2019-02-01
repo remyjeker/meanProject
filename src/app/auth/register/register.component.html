@@ -38,8 +38,11 @@
       </table>
     </form>
   </mat-card-content>
+  <app-error-message></app-error-message>
   <mat-card-actions>
     <button mat-raised-button (click)="register()" color="primary">Register</button>
-    <span>Allrady have an account ? <a [routerLink]="['/auth/login']">login</a> here</span>
+    <p>
+      <span>Already have an account ? <a [routerLink]="['/auth/login']">login</a> here</span>
+    </p>
   </mat-card-actions>
 </mat-card>

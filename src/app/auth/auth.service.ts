@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { TokenStorage } from './token.storage';
-import { TooltipComponent } from '@angular/material';
+import { Observer } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable()
 export class AuthService {
@@ -12,18 +13,20 @@ export class AuthService {
   constructor(private http: HttpClient, private token: TokenStorage) {}
 
   public $userSource = new Subject<any>();
+  public $errorSource = new Subject<any>();
+
+  private NON_ASSESSABLE_VALUE: String = 'N-A';
+  private ERASE_ERRORS_DELAY: Number = 5000;
 
   login(email: string, password: string): Observable <any> {
     return Observable.create(observer => {
       this.http.post('/api/auth/login', {
         email,
         password
-      }).subscribe((data: any) => {
-          observer.next({user: data.user});
-          this.setUser(data.user);
-          this.token.saveToken(data.token);
-          observer.complete();
-      });
+      }).subscribe(
+        (data: any) => this.userLoginSuccess(observer, data),
+        (error: any) => this.catchError(error),
+      );
     });
   }
 
@@ -34,22 +37,65 @@ export class AuthService {
         email,
         password,
         repeatPassword
-      }).subscribe((data: any) => {
-        observer.next({user: data.user});
-        this.setUser(data.user);
-        this.token.saveToken(data.token);
-        observer.complete();
-      });
+      }).subscribe(
+        (data: any) => this.userLoginSuccess(observer, data),
+        (error: any) => this.catchError(error),
+      );
     });
   }
 
-  setUser(user): void {
+  userLoginSuccess(observer: Observer <any>, data: any): void {
+    observer.next({user: data.user});
+    this.setUser(data.user);
+    this.token.saveToken(data.token);
+    observer.complete();
+  }
+
+  catchError(catchedError: any): void {
+    const genericMessage = catchedError.message;
+    const isSimpleError = (typeof catchedError.error === 'string');
+
+    let message: string;
+    if (isSimpleError) message = catchedError.error;
+    else message = catchedError.error.message;
+
+    const errorDetails = {
+      message: genericMessage || this.NON_ASSESSABLE_VALUE,
+      details: message || this. NON_ASSESSABLE_VALUE,
+      date: + new Date(),
+      displayedDate: moment().format('dddd, Do MMMM YYYY (h:mm:ss)'),
+    };
+
+    this.setError(errorDetails);
+  }
+
+  getCurrentError(): any {
+    const authError = (<any>window).error || null;
+    if (authError == null) return;
+
+    const now = + new Date();
+    const authErrorDate = authError.date;
+    const diff = now - authErrorDate;
+    const shouldEraseError = (diff >= this.ERASE_ERRORS_DELAY);
+
+    if (!shouldEraseError) return authError;
+
+    (<any>window).error = null;
+    return null;
+  }
+
+  setUser(user: any): void {
     if (user) {
       user.isAdmin = (user.roles.indexOf('admin') > -1);
     }
 
     this.$userSource.next(user);
     (<any>window).user = user;
+  }
+
+  setError(error): void {
+    this.$errorSource.next(error);
+    (<any>window).error = error;
   }
 
   getUser(): Observable<any> {
@@ -61,7 +107,7 @@ export class AuthService {
       const tokenVal = this.token.getToken();
 
       if (!tokenVal) {
-        return  observer.complete();
+        return observer.complete();
       }
 
       this.http.get('/api/auth/me').subscribe((data: any) => {

@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ValidationErrors } from '@angular/forms';
 
-
 import { AuthService } from '../auth.service';
+import { ErrorMessageComponent } from './../../errorMessage/errorMessage.component';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['../auth.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends ErrorMessageComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) {
+    super(authService);
+  }
 
   ngOnInit() { }
 

@@ -22,8 +22,11 @@
       </table>
     </form>
   </mat-card-content>
+  <app-error-message></app-error-message>
   <mat-card-actions>
     <button mat-raised-button (click)="login()" color="primary">Login</button>
-    <span>Don't have an account ? <a [routerLink]="['/auth/register']" >register</a> here</span>
+    <p>
+      <span>Don't have an account ? <a [routerLink]="['/auth/register']" >register</a> here</span>
+    </p>
   </mat-card-actions>
 </mat-card>
