@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../auth/auth.service';
+import * as PATHS from '../app-routing/routes';
 
 @Component({
   selector: 'app-header',
@@ -12,17 +13,19 @@ export class HeaderComponent implements OnInit {
 
   @Input() user: any = {};
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit() {
-  }
+  private PATHS: any = PATHS;
+
+  ngOnInit() { }
 
   logout(): void {
     this.authService.signOut();
-    this.navigate('/auth/login');
+    this.navigate(PATHS.LOGIN_ROUTE);
+  }
+
+  isNotProfilePage(): Boolean {
+    return !(this.router.url === PATHS.PROFILE_ROUTE);
   }
 
   navigate(link): void {

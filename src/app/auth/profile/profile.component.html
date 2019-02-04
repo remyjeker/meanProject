@@ -1,3 +1,47 @@
-<p>
-  profile works!
-</p>
+<mat-card class="example-card"  *ngIf="user">
+  <mat-card-header>
+    <mat-card-title>User Profile</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="example-form">
+      <table cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput placeholder="ID" [(ngModel)]="user.guid" name="id" disabled>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput placeholder="Fullname" [(ngModel)]="user.fullname" name="fullname" disabled>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput placeholder="Email" [(ngModel)]="user.email" name="email" disabled>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput placeholder="Roles" [(ngModel)]="user.roles" name="roles" disabled>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput placeholder="Created at" [(ngModel)]="user.createdAt" name="createdAt" disabled>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </mat-card-content>
+</mat-card>

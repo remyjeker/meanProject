@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AuthGuard } from '../auth/auth-guard.service';
 import { HomeComponent } from '../home/home.component';
 import { ErrorPageComponent } from '../errorPage/errorPage.component';
+import * as PATHS from './routes';
 
-import * as PATHS from './constants';
+const pathMatchMode = 'full';
 
-const pathMatchFullMode = 'full';
-const errorPageRoute = {
+const errorPageRouteConfig = {
   path: '**',
-  pathMatch: pathMatchFullMode,
+  pathMatch: pathMatchMode,
   component: ErrorPageComponent
 };
 
 const routes: Routes = [{
   path: PATHS.DEFAULT_ROUTE,
-  pathMatch: pathMatchFullMode,
+  pathMatch: pathMatchMode,
   redirectTo: PATHS.HOME_ROUTE
 }, {
   path: PATHS.HOME_ROUTE,
@@ -27,7 +28,7 @@ const routes: Routes = [{
   path: PATHS.ADMIN_ROUTE,
   loadChildren: 'app/admin/admin.module#AdminModule'
 },
-  errorPageRoute
+  errorPageRouteConfig
 ];
 
 @NgModule({

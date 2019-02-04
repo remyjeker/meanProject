@@ -5,18 +5,20 @@ import { Subject } from 'rxjs/Subject';
 
 import { TokenStorage } from './token.storage';
 import { Observer } from 'rxjs';
-import * as moment from 'moment';
+import { formatDate } from '../helpers';
+
+import {
+  NON_ASSESSABLE_VALUE,
+  ERASE_ERRORS_DELAY,
+} from '../constants';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: HttpClient, private token: TokenStorage) {}
+  constructor(private http: HttpClient, private token: TokenStorage) { }
 
   public $userSource = new Subject<any>();
   public $errorSource = new Subject<any>();
-
-  private NON_ASSESSABLE_VALUE: String = 'N-A';
-  private ERASE_ERRORS_DELAY: Number = 5000;
 
   login(email: string, password: string): Observable <any> {
     return Observable.create(observer => {
@@ -60,10 +62,10 @@ export class AuthService {
     else message = catchedError.error.message;
 
     const errorDetails = {
-      message: genericMessage || this.NON_ASSESSABLE_VALUE,
-      details: message || this. NON_ASSESSABLE_VALUE,
+      message: genericMessage || NON_ASSESSABLE_VALUE,
+      details: message || NON_ASSESSABLE_VALUE,
       date: + new Date(),
-      displayedDate: moment().format('dddd, Do MMMM YYYY (h:mm:ss)'),
+      displayedDate: formatDate(),
     };
 
     this.setError(errorDetails);
@@ -76,7 +78,7 @@ export class AuthService {
     const now = + new Date();
     const authErrorDate = authError.date;
     const diff = now - authErrorDate;
-    const shouldEraseError = (diff >= this.ERASE_ERRORS_DELAY);
+    const shouldEraseError = (diff >= ERASE_ERRORS_DELAY);
 
     if (!shouldEraseError) return authError;
 
