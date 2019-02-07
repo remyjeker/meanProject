@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 
 import { TokenStorage } from './token.storage';
 import { Observer } from 'rxjs';
 import { formatDate } from '../helpers';
+import * as PATHS from '../app-routing/routes';
 
 import {
   NON_ASSESSABLE_VALUE,
@@ -15,7 +17,11 @@ import {
 @Injectable()
 export class AuthService {
 
-  constructor(private http: HttpClient, private token: TokenStorage) { }
+  constructor(
+    private http: HttpClient,
+    private token: TokenStorage,
+    private router: Router,
+  ) { }
 
   public $userSource = new Subject<any>();
   public $errorSource = new Subject<any>();
@@ -40,17 +46,21 @@ export class AuthService {
         password,
         repeatPassword
       }).subscribe(
-        (data: any) => this.userLoginSuccess(observer, data),
+        (data: any) => this.userLoginSuccess(observer, data, true),
         (error: any) => this.catchError(error),
       );
     });
   }
 
-  userLoginSuccess(observer: Observer <any>, data: any): void {
+  userLoginSuccess(observer: Observer <any>, data: any, userProfileRedirection?: boolean): void {
     observer.next({user: data.user});
     this.setUser(data.user);
     this.token.saveToken(data.token);
     observer.complete();
+
+    if (userProfileRedirection) {
+      this.router.navigate([PATHS.PROFILE_ROUTE]);
+    }
   }
 
   catchError(catchedError: any): void {
