@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  private PATHS: any = PATHS;
+  public PATHS: any = PATHS;
 
   ngOnInit() { }
 

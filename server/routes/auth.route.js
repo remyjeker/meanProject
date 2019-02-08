@@ -3,7 +3,6 @@ const asyncHandler = require('express-async-handler')
 const passport = require('passport');
 const userCtrl = require('../controllers/user.controller');
 const authCtrl = require('../controllers/auth.controller');
-const config = require('../config/config');
 
 const router = express.Router();
 module.exports = router;
@@ -17,7 +16,7 @@ async function register(req, res, next) {
   user = user.toObject();
   delete user.hashedPassword;
   req.user = user;
-  next()
+  next();
 }
 
 function login(req, res) {
