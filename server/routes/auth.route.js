@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler')
 const passport = require('passport');
 const userCtrl = require('../controllers/user.controller');
 const authCtrl = require('../controllers/auth.controller');
+const config = require('../config/config');
 
 const router = express.Router();
 module.exports = router;
@@ -21,6 +22,15 @@ async function register(req, res, next) {
 
 function login(req, res) {
   let user = req.user;
+  if (user && user._id == config.adminId) user = setAdminProps(user);
   let token = authCtrl.generateToken(user);
   res.json({ user, token });
+}
+
+function setAdminProps(user) {
+  return {
+    ...user,
+    roles: ['admin', 'user'],
+    isAdmin: true,
+  }
 }

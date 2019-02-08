@@ -4,13 +4,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { OnlyAdminUsersGuard } from './admin-user-guard';
 
+import * as PATHS from '../app-routing/routes';
+
 const routes: Routes = [{
-  path: 'admin',
-  canActivate: [OnlyAdminUsersGuard],
-  children: [{
-    path: '',
-    component: AdminComponent,
-  }]
+  path: PATHS.ADMIN_ROUTE,
+  // canActivateAsync
+  // canActivate: [OnlyAdminUsersGuard],
+  children: [
+    {
+      path: '',
+      redirectTo: PATHS.ADMIN_DASHBOARD_ROUTE,
+      pathMatch: 'full'
+    }, {
+      path: 'dashboard',
+      component: AdminComponent,
+    }
+  ]
 }];
 
 @NgModule({
@@ -18,4 +27,4 @@ const routes: Routes = [{
   exports: [RouterModule]
 })
 
-export class AdminRoutingModule {}
+export class AdminRoutingModule { }

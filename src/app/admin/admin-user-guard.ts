@@ -3,7 +3,8 @@ import { CanActivate } from '@angular/router';
 
 @Injectable()
 export class OnlyAdminUsersGuard implements CanActivate {
-  constructor() {}
+
+  constructor() { }
 
   canActivate() {
     const user = (<any>window).user;

@@ -8,7 +8,7 @@
         <mat-icon>account_circle</mat-icon>{{user.fullname}}
       </a>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngIf="user && user.isAdmin" [routerLink]="['/' + PATHS.ADMIN_ROUTE]">Admin</button>
+        <button mat-menu-item *ngIf="user && user.isAdmin" [routerLink]="[PATHS.ADMIN_DASHBOARD_ROUTE]">Admin</button>
         <button mat-menu-item *ngIf="user && isNotProfilePage()" [routerLink]="[PATHS.PROFILE_ROUTE]">Profile</button>
         <button mat-menu-item (click)="logout()">Logout</button>
       </mat-menu>
