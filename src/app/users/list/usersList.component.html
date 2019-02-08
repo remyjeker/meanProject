@@ -1,0 +1,5 @@
+<h4>Users list :</h4>
+<div *ngFor="let user of users; let i=index">
+  <label>{{ user.email }}</label>
+</div>
+<div *ngIf="loading">Loading ...</div>

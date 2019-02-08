@@ -26,7 +26,7 @@ export class AuthService {
   public $userSource = new Subject<any>();
   public $errorSource = new Subject<any>();
 
-  login(email: string, password: string): Observable <any> {
+  login(email: string, password: string): Observable<any> {
     return Observable.create(observer => {
       this.http.post('/api/auth/login', {
         email,
@@ -38,7 +38,7 @@ export class AuthService {
     });
   }
 
-  register(fullname: string, email: string, password: string, repeatPassword: string): Observable <any> {
+  register(fullname: string, email: string, password: string, repeatPassword: string): Observable<any> {
     return Observable.create(observer => {
       this.http.post('/api/auth/register', {
         fullname,
@@ -52,8 +52,8 @@ export class AuthService {
     });
   }
 
-  userLoginSuccess(observer: Observer <any>, data: any, userProfileRedirection?: boolean): void {
-    observer.next({user: data.user});
+  userLoginSuccess(observer: Observer<any>, data: any, userProfileRedirection?: boolean): void {
+    observer.next({ user: data.user });
     this.setUser(data.user);
     this.token.saveToken(data.token);
     observer.complete();
@@ -123,7 +123,7 @@ export class AuthService {
       }
 
       this.http.get('/api/auth/me').subscribe((data: any) => {
-        observer.next({user: data.user});
+        observer.next({ user: data.user });
         this.setUser(data.user);
         observer.complete();
       });

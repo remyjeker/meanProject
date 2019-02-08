@@ -1,3 +1,12 @@
-<p>
-  home works!
-</p>
+<div>
+  <h2>HOME</h2>
+
+  <app-users-list *ngIf="isLoggedIn"></app-users-list>
+
+  <mat-card-actions *ngIf="!isLoggedIn">
+    <p>
+      <span>Log in to see user's list </span>
+    </p>
+    <button mat-raised-button (click)="loginAccess()" color="primary">Login</button>
+  </mat-card-actions>
+</div>
