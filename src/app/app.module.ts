@@ -14,6 +14,7 @@ import { CatchErrorInterceptor } from './interceptors/http-error.interceptor';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { HeaderComponent } from './header/header.component';
+import { SideMenuComponent } from './sideMenu/sideMenu.component';
 import { HomeComponent } from './home/home.component';
 import { UsersListComponent } from './users/list/usersList.component';
 import { ErrorPageComponent } from './errorPage/errorPage.component';
@@ -22,6 +23,7 @@ import { ErrorPageComponent } from './errorPage/errorPage.component';
   declarations: [
     AppComponent,
     HeaderComponent,
+    SideMenuComponent,
     HomeComponent,
     UsersListComponent,
     ErrorPageComponent,
