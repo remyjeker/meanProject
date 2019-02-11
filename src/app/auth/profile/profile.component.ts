@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { AuthService } from '../auth.service';
 import { formatDate } from '../../helpers';
@@ -9,7 +10,8 @@ import { USER_ROLE } from '../user-roles';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['../auth.component.scss']
+  styleUrls: ['../auth.component.scss'],
+  providers: [ RouterModule ],
 })
 export class ProfileComponent implements OnInit {
 

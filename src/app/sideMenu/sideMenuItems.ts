@@ -9,25 +9,31 @@ export interface SideMenuItems {
 
 export const items: Array<SideMenuItems> = [{
   ref: 'home',
-  path: PATHS.HOME_ROUTE,
+  path: PATHS.HOME_PATH,
   title: 'Home',
 }, {
+  ref: 'profile',
+  path: PATHS.PROFILE_PATH,
+  title: 'My profile',
+}, {
   ref: 'admin',
-  path: PATHS.ADMIN_DASHBOARD_ROUTE,
+  path: PATHS.ADMIN_DASHBOARD_PATH,
   title: 'Admin Dashboard',
 }];
 
 export const authItems: Array<SideMenuItems> = [{
   ref: 'login',
-  path: PATHS.LOGIN_ROUTE,
-  title: 'Login',
+  path: PATHS.LOGIN_PATH,
+  title: 'Log in',
 }, {
   ref: 'register',
-  path: PATHS.REGISTER_ROUTE,
+  path: PATHS.REGISTER_PATH,
   title: 'Sign in',
 }];
 
-export const optItems: Array<SideMenuItems> = [{
+export const optItems: Array<SideMenuItems> =  [];
+
+const newItems: Array<SideMenuItems> = [{
   ref: 'aa',
   path: 'aa',
   title: 'aa',

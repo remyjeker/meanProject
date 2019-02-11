@@ -1,5 +1,14 @@
-.example-container {
+.sideMenu-toolbar-title {
+  width: 100%;
+  text-align: center;
+}
+
+.sideMenu-container {
   height: 1000px;
+}
+
+.mat-drawer-side {
+  border-top: solid 1px rgba(0, 0, 0, 0.12);
 }
 
 .mat-sidenav-content {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { AuthService } from '../auth/auth.service';
 import * as PATHS from '../app-routing/routes';
@@ -7,7 +7,8 @@ import * as PATHS from '../app-routing/routes';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: [ RouterModule ],
 })
 export class HeaderComponent implements OnInit {
 
@@ -21,11 +22,11 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.authService.signOut();
-    this.navigate(PATHS.LOGIN_ROUTE);
+    this.navigate(PATHS.LOGIN_PATH);
   }
 
   isNotProfilePage(): Boolean {
-    return !(this.router.url === PATHS.PROFILE_ROUTE);
+    return !(this.router.url === PATHS.PROFILE_PATH);
   }
 
   navigate(link): void {

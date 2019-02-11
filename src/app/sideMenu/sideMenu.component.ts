@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { AuthService } from '../auth/auth.service';
-
 import {
   SideMenuItems,
   items,
@@ -14,7 +13,7 @@ import {
   selector: 'app-side-bar',
   templateUrl: './sideMenu.component.html',
   styleUrls: ['./sideMenu.component.scss'],
-  providers: [ RouterLink ]
+  providers: [ RouterModule ],
 })
 export class SideMenuComponent implements OnInit {
 
@@ -22,28 +21,54 @@ export class SideMenuComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  public isLoggedIn: Boolean = false;
+  public currentViewTitle: string;
+  public userIsLoggedIn: Boolean = false;
   public sideMenuItems: Array<SideMenuItems> = [].concat(authItems);
 
   ngOnInit() {
+    this.setRouterWatcher();
     this.refreshMenu();
+  }
+
+  setRouterWatcher() {
+    this.router.events.subscribe((event) => {
+      if ('urlAfterRedirects' in event) {
+        const { urlAfterRedirects } = event;
+        const allRoutes = [].concat(items).concat(optItems).concat(authItems);
+        const matchs = allRoutes.filter((item) => {
+          return item.path === urlAfterRedirects;
+        });
+
+        if (matchs.length) {
+          const currentRoute = matchs[0];
+          const currentTitle = currentRoute.title;
+          this.currentViewTitle = currentTitle;
+        } else {
+          this.currentViewTitle = 'Page title (undefined)';
+        }
+      }
+    });
   }
 
   refreshMenu() {
     this.authService.getUser().subscribe((data) => {
-      if (!data) this.isLoggedIn = false;
-      if (data != null) this.isLoggedIn = true;
+      if (!data) this.userIsLoggedIn = false;
+      if (data != null) this.userIsLoggedIn = true;
 
-      this.sideMenuItems = (this.isLoggedIn)
+      this.sideMenuItems = (this.userIsLoggedIn)
         ? [].concat(items).concat(optItems)
         : [].concat(authItems);
 
       this.sideMenuItems = this.sideMenuItems
         .filter(item => !item.masked);
 
-      // TODO : fix for execute drawer
-      document.getElementById('ok').click();
-      document.getElementById('ok').click();
+      this.refreshLayout();
     });
+  }
+
+  refreshLayout() {
+    const sideMenuToggle = document.getElementById('sideMenu-toggle');
+    sideMenuToggle.click();
+    sideMenuToggle.click();
   }
 }

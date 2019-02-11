@@ -2,14 +2,14 @@
   <mat-toolbar color="primary">
     <a [routerLink]="[PATHS.HOME_ROUTE]" class="logo"></a>
     <span class="example-spacer"></span>
-    <a class="links side" [routerLink]="[PATHS.LOGIN_ROUTE]" *ngIf="!user">Login</a>
+    <a class="links side" [routerLink]="[PATHS.LOGIN_PATH]" *ngIf="!user">Login</a>
     <div>
       <a class="links side" *ngIf="user" [matMenuTriggerFor]="menu">
         <mat-icon>account_circle</mat-icon>{{user.fullname}}
       </a>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngIf="user && user.isAdmin" [routerLink]="[PATHS.ADMIN_DASHBOARD_ROUTE]">Admin</button>
-        <button mat-menu-item *ngIf="user && isNotProfilePage()" [routerLink]="[PATHS.PROFILE_ROUTE]">Profile</button>
+        <button mat-menu-item *ngIf="user && user.isAdmin" [routerLink]="[PATHS.ADMIN_DASHBOARD_PATH]">Admin</button>
+        <button mat-menu-item *ngIf="user && isNotProfilePage()" [routerLink]="[PATHS.PROFILE_PATH]">Profile</button>
         <button mat-menu-item (click)="logout()">Logout</button>
       </mat-menu>
     </div>

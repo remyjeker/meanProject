@@ -59,7 +59,7 @@ export class AuthService {
     observer.complete();
 
     if (userProfileRedirection) {
-      this.router.navigate([PATHS.PROFILE_ROUTE]);
+      this.router.navigate([PATHS.PROFILE_PATH]);
     }
   }
 
